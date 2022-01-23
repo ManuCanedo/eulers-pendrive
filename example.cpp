@@ -1,7 +1,7 @@
 #include <iostream>
 #include <array>
 
-#include "euler_math.h"
+#include "include/euler_math.h"
 
 int main()
 {
@@ -21,18 +21,21 @@ int main()
 	const double sol2 = sym_sol(2);
 	printf("Real value: %0.5f\n\n", sol2);
 
-	const std::array<double, 6> hs = {
-		0.2, 0.1, 0.01, 1.0 / 1000, 1.0 / 10000, 1.0 / 100000
+	const std::array<double, 3> hs = {
+		0.2, 0.1, 0.01
 	};
-	for (auto &h : hs) {
-		const double eu = euler_ode_solve(ini_t, ini_val, fin_t, ode, h);
-		printf("Euler's approximation for h=%0.5f:\n\tresult: %0.6f\n\terror: %0.20f\n",
+	for (const auto& h : hs) {
+		const double eu =
+			euler_ode_solve(ini_t, ini_val, fin_t, ode, h);
+        printf("Euler's approximation for h=%0.2f:\n\tresult: %0.6f\n\terror: %0.6f\n",
 		       h, eu, std::abs(eu - sol2));
 
-		const double rk4 = runge_kutta_ode_solve(ini_t, ini_val, fin_t, ode, h);
-		printf("Runge-Kutta's approximation for h=%0.5f:\n\tresult: %0.6f\n\terror: %0.20f\n\n",
+		const double rk4 =
+			runge_kutta_ode_solve(ini_t, ini_val, fin_t, ode, h);
+        printf("Runge-Kutta's approximation for h=%0.2f:\n\tresult: %0.6f\n\terror: %0.6f\n\n",
 		       h, rk4, std::abs(rk4 - sol2));
 	}
 
 	return 0;
 }
+
